@@ -1,19 +1,21 @@
 import { getProjects } from "@/app/_lib/projects";
-import Project from "./Project";
+import type { Project } from "@prisma/client";
 import CreateProject from "./CreateProject";
+import ProjectListSuspence from "./ProjectListSuspence";
+import { isInitialRender } from "@/app/_lib/utils";
 
 export default async function ProjectPage() {
-  const projects = await getProjects();
+  let projects: Project[] | null = null;
+
+  if (isInitialRender()) {
+    projects = await getProjects();
+  }
 
   return (
     <>
       <div>
         <CreateProject />
-        <ul className="max-w-md divide-y divide-gray-700 p-4">
-          {projects.map((project) => {
-            return <Project key={project.id} project={project} />;
-          })}
-        </ul>
+        <ProjectListSuspence projects={projects} />
       </div>
     </>
   );
