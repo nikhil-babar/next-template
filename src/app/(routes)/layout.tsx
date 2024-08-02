@@ -7,6 +7,8 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 config.autoAddCss = false;
 
+import ToastProvider from "../_components/ToastProvider";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -22,8 +24,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <NavbarComponent />
-        {children}
+        <ToastProvider>
+          <NavbarComponent />
+          <div className="w-full flex justify-center items-center">
+            {children}
+          </div>
+        </ToastProvider>
       </body>
     </html>
   );
